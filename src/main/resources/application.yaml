@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: process-instance-migration
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+camunda:
+  client:
+    mode: saas
+    auth:
+      client-id: xxx
+      client-secret: xxx
+    cluster-id: xxx
+    region: bru-2
+    zeebe:
+      rest-address: https://bru-2.zeebe.camunda.io/xxx
+
+operate:
+  client:
+    profile: saas
+    region: ${camunda.client.region}
+    cluster-id: ${camunda.client.cluster-id}
+    client-id: ${camunda.client.auth.client-id}
+    client-secret: ${camunda.client.auth.client-secret}
+
+process-instance-migration:
+  enabled: true
+  thread-pool-size: 5
+  backoff-minimum: 1000
+  backoff-maximum: 40000
+  retry-limit: 5
+
+## logging level debug migration service
+logging:
+  level:
+    org.camunda.consulting.migration: DEBUG
